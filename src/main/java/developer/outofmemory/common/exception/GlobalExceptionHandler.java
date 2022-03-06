@@ -1,4 +1,4 @@
-package developer.outofmemory.common.exception;//package com.knox.aurora.common.exception;
+package developer.outofmemory.common.exception;
 
 import developer.outofmemory.common.api.ApiResult;
 import org.springframework.web.bind.annotation.ControllerAdvice;

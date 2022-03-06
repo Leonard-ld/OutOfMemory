@@ -14,21 +14,18 @@ import java.util.Date;
 
 @Data
 @Builder
-@TableName("ums_user")
+@TableName("user")
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
 public class User implements Serializable {
     private static final long serialVersionUID = -5051120337175047163L;
 
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @TableId(value = "id", type = IdType.AUTO)
     private String id;
 
     @TableField("username")
     private String username;
-
-    @TableField("alias")
-    private String alias;
 
     @JsonIgnore()
     @TableField("password")
@@ -44,9 +41,8 @@ public class User implements Serializable {
     @TableField("mobile")
     private String mobile;
 
-    @Builder.Default
     @TableField("bio")
-    private String bio = "自由职业者";
+    private String bio;
 
     @Builder.Default
     @TableField("score")

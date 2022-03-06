@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 
 @Data
-@TableName("bms_promotion")
+@TableName("promotion")
 @Accessors(chain = true)
 public class Promotion implements Serializable {
 

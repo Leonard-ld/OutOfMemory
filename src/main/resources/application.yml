@@ -1,0 +1,19 @@
+
+spring:
+  application:
+    name: OutOfMemory
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/outofmemory_test?serverTimezone=UTC
+      username: root
+      password: li1259535860
+server:
+  port: 8000
+
+logging:
+  level:
+    root: warn
+    developer.outofmemory.dao: debug
+
+

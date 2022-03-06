@@ -27,10 +27,6 @@ public class User implements Serializable {
     @TableField("username")
     private String username;
 
-    @JsonIgnore()
-    @TableField("password")
-    private String password;
-
     @Builder.Default
     @TableField("avatar")
     private String avatar = "https://s3.ax1x.com/2020/12/01/DfHNo4.jpg";

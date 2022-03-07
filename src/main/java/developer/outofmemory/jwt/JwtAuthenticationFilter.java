@@ -21,7 +21,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             if(isProtectedUrl(request)) {
-//                System.out.println(request.getMethod());
                 if(!request.getMethod().equals("OPTIONS"))
                     request = JwtUtil.validateTokenAndAddUserIdToHeader(request);
             }
@@ -34,8 +33,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private boolean isProtectedUrl(HttpServletRequest request) {
         List<String> protectedPaths = new ArrayList<String>();
-        protectedPaths.add("/ums/user/info");
-        protectedPaths.add("/ums/user/update");
+        protectedPaths.add("/user/info");
+        protectedPaths.add("/user/update");
         protectedPaths.add("/post/create");
         protectedPaths.add("/post/update");
         protectedPaths.add("/post/delete/*");

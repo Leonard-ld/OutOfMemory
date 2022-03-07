@@ -8,5 +8,8 @@ import developer.outofmemory.model.entity.User;
 
 public interface UserService extends IService<User> {
     User register(RegisterDTO registerDTO);
+
+    User getUserByUsername(String username);
+
     String login(LoginDTO loginDTO);
 }

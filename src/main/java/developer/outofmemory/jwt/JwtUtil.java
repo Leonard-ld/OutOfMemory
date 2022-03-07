@@ -15,12 +15,12 @@ public class JwtUtil {
     public static final String SECRET = "ThisIsASecret";//please change to your own encryption secret.
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
-    public static final String USER_EMAIL = "user_email";
+    public static final String USER_NAME = "user_name";
 
-    public static String generateToken(String user_email) {
+    public static String generateToken(String user_name) {
         HashMap<String, Object> map = new HashMap<>();
         //you can put any data in the map
-        map.put(USER_EMAIL, user_email);
+        map.put(USER_NAME, user_name);
         String jwt = Jwts.builder()
                 .setClaims(map)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))

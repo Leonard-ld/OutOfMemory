@@ -11,9 +11,9 @@ import java.io.Serializable;
 
 
 @Data
-@TableName("bms_post_tag")
+@TableName("post_tag")
 @Accessors(chain = true)
-public class TopicTag implements Serializable {
+public class PostTag implements Serializable {
     private static final long serialVersionUID = -5028599844989220715L;
 
     @TableId(type = IdType.AUTO)
@@ -22,6 +22,6 @@ public class TopicTag implements Serializable {
     @TableField("tag_id")
     private String tagId;
 
-    @TableField("topic_id")
-    private String topicId;
+    @TableField("post_id")
+    private String postId;
 }

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-@MapperScan("com.douyuehan.doubao.mapper")
+@MapperScan("developer.outofmemory.dao")
 public class MybatisPlusConfig {
 
     /**

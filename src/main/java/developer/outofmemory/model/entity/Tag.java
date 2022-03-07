@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 @Data
 @Builder
-@TableName("bms_tag")
+@TableName("tag")
 @Accessors(chain = true)
 public class Tag implements Serializable {
     private static final long serialVersionUID = 3257790983905872243L;
@@ -26,7 +26,7 @@ public class Tag implements Serializable {
     /**
      * 当前标签下的话题个数
      */
-    @TableField("topic_count")
+    @TableField("post_count")
     @Builder.Default
-    private Integer topicCount = 1;
+    private Integer postCount = 1;
 }

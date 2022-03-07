@@ -9,7 +9,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-@TableName("bms_follow")
+@TableName("follow")
 public class Follow implements Serializable {
 
     private static final long serialVersionUID = 1L;

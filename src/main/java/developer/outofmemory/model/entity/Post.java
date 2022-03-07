@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Data
 @Builder
-@TableName("bms_post")
+@TableName("post")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Post implements Serializable {

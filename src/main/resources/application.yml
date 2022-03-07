@@ -1,4 +1,3 @@
-
 spring:
   application:
     name: OutOfMemory
@@ -16,4 +15,6 @@ logging:
     root: warn
     developer.outofmemory.dao: debug
 
+mybatis-plus:
+  mapper-locations: classpath:**/*.xml
 

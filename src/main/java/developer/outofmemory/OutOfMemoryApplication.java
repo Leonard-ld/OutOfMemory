@@ -10,7 +10,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@MapperScan("developer.outofmemory.dao")
 public class OutOfMemoryApplication extends SpringBootServletInitializer {
 
     @Override

@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Data
 @Builder
-@TableName("bms_comment")
+@TableName("comment")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Comment implements Serializable {
@@ -40,10 +40,10 @@ public class Comment implements Serializable {
     private String userId;
 
     /**
-     * topicID
+     * postID
      */
-    @TableField("topic_id")
-    private String topicId;
+    @TableField("post_id")
+    private String postId;
 
     /**
      * 创建时间

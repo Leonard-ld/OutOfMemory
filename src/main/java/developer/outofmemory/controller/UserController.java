@@ -43,9 +43,15 @@ public class UserController extends BaseController{
         return ApiResult.success(map, "登录成功");
     }
 
+
     @GetMapping(value = "/info")
     public ApiResult<User> getUser(@RequestHeader(value = USER_NAME) String userName) {
         User user = userService.getUserByUsername(userName);
         return ApiResult.success(user);
+    }
+
+    @RequestMapping(value = "/logout")
+    public ApiResult<Object> logOut() {
+        return ApiResult.success(null, "注销成功");
     }
 }

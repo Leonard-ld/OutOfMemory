@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         protectedPaths.add("/post");
         protectedPaths.add("/post/update");
         protectedPaths.add("/post/delete/*");
-        protectedPaths.add("/comment/add_comment");
+        protectedPaths.add("/comment");
         protectedPaths.add("/relationship");
         protectedPaths.add("/relationship/*");
         protectedPaths.add("/relationship/validate/*");

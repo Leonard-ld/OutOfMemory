@@ -29,6 +29,7 @@ public interface PostDao extends BaseMapper<Post> {
      * @param id
      * @return
      */
+
     List<Post> selectRecommend(@Param("id") String id);
     /**
      * 全文检索

@@ -9,13 +9,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TipServiceImpl extends ServiceImpl<TipDao, Tip> implements TipService {
-    @Autowired
-    TipService tipService;
 
     @Override
     public Tip getTip() {
-        int sum = tipService.count();
+        int sum = this.count();
         int id = (int)Math.floor(Math.random()*1000) % sum;
-        return tipService.getById(id);
+        return this.getById(id);
     }
 }

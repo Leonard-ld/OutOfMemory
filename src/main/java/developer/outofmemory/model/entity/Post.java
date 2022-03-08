@@ -97,4 +97,10 @@ public class Post implements Serializable {
      */
     @TableField(value = "modify_time", fill = FieldFill.UPDATE)
     private Date modifyTime;
+
+    /**
+     * 最后评论时间
+     */
+    @TableField(value = "comment_time", fill = FieldFill.UPDATE)
+    private Date lastCommentTime;
 }

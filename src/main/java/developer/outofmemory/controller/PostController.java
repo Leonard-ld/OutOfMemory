@@ -3,7 +3,9 @@ package developer.outofmemory.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.vdurmont.emoji.EmojiParser;
 import developer.outofmemory.common.api.ApiResult;
+import developer.outofmemory.model.dto.CreateDTO;
 import developer.outofmemory.model.entity.Post;
+import developer.outofmemory.model.entity.User;
 import developer.outofmemory.model.vo.PostVO;
 import developer.outofmemory.service.PostService;
 import developer.outofmemory.service.UserService;
@@ -28,33 +30,34 @@ public class PostController extends BaseController {
     @Resource
     private UserService userService;
 
-    @GetMapping("/list")
+    @GetMapping("{pageNo}/{size}/{tab}")
     public ApiResult<Page<PostVO>> list(@RequestParam(value = "tab", defaultValue = "latest") String tab,
                                         @RequestParam(value = "pageNo", defaultValue = "1")  Integer pageNo,
                                         @RequestParam(value = "size", defaultValue = "10") Integer pageSize) {
         Page<PostVO> list = postService.getList(new Page<>(pageNo, pageSize), tab);
         return ApiResult.success(list);
     }
-/*
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+
+    @PostMapping
     public ApiResult<Post> create(@RequestHeader(value = USER_NAME) String userName
-            , @RequestBody CreateTopicDTO dto) {
-        UmsUser user = umsUserService.getUserByUsername(userName);
-        BmsPost topic = iBmsPostService.create(dto, user);
-        return ApiResult.success(topic);
+            , @RequestBody CreateDTO createDTO) {
+        User user = userService.getUserByUsername(userName);
+        Post post = postService.create(createDTO, user);
+        return ApiResult.success(post);
     }
-    @GetMapping()
-    public ApiResult<Map<String, Object>> view(@RequestParam("id") String id) {
-        Map<String, Object> map = iBmsPostService.viewTopic(id);
+
+    @GetMapping("{id}")
+    public ApiResult<Map<String, Object>> detail(@PathVariable String id) {
+        Map<String, Object> map = postService.viewPost(id);
         return ApiResult.success(map);
     }
 
     @GetMapping("/recommend")
-    public ApiResult<List<BmsPost>> getRecommend(@RequestParam("topicId") String id) {
-        List<BmsPost> topics = iBmsPostService.getRecommend(id);
+    public ApiResult<List<Post>> getRecommend(@RequestParam("postId") String id) {
+        List<Post> topics = postService.getRecommend(id);
         return ApiResult.success(topics);
     }
-
+/*
     @PostMapping("/update")
     public ApiResult<BmsPost> update(@RequestHeader(value = USER_NAME) String userName, @Valid @RequestBody BmsPost post) {
         UmsUser umsUser = umsUserService.getUserByUsername(userName);

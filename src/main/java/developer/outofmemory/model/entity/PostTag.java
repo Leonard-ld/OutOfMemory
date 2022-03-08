@@ -24,4 +24,11 @@ public class PostTag implements Serializable {
 
     @TableField("post_id")
     private String postId;
+
+    public PostTag() {}
+
+    public PostTag(String tagId, String postId) {
+        this.tagId = tagId;
+        this.postId = postId;
+    }
 }

@@ -1,4 +1,27 @@
 package developer.outofmemory.service;
 
-public interface TagService {
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import developer.outofmemory.model.entity.Post;
+import developer.outofmemory.model.entity.Tag;
+
+import java.util.List;
+
+public interface TagService extends IService<Tag> {
+    /**
+     * 插入标签
+     *
+     * @param tagNames
+     * @return
+     */
+    List<Tag> insertTags(List<String> tagNames);
+
+    /**
+     * 获取标签关联话题
+     *
+     * @param postPage
+     * @param id
+     * @return
+     */
+    Page<Post> selectPostsByTagId(Page<Post> postPage, String id);
 }

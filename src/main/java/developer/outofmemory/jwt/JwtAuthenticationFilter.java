@@ -35,12 +35,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         List<String> protectedPaths = new ArrayList<String>();
         protectedPaths.add("/user/info");
         protectedPaths.add("/user/update");
-        protectedPaths.add("/post/create");
+        protectedPaths.add("/post");
         protectedPaths.add("/post/update");
         protectedPaths.add("/post/delete/*");
         protectedPaths.add("/comment/add_comment");
-        protectedPaths.add("/relationship/subscribe/*");
-        protectedPaths.add("/relationship/unsubscribe/*");
+        protectedPaths.add("/relationship");
+        protectedPaths.add("/relationship/*");
         protectedPaths.add("/relationship/validate/*");
 
         boolean bFind = false;

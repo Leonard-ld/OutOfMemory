@@ -16,12 +16,5 @@ public interface TagService extends IService<Tag> {
      */
     List<Tag> insertTags(List<String> tagNames);
 
-    /**
-     * 获取标签关联话题
-     *
-     * @param postPage
-     * @param id
-     * @return
-     */
-    Page<Post> selectPostsByTagId(Page<Post> postPage, String id);
+
 }

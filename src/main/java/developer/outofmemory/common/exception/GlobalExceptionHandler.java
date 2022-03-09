@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
      * 捕获自定义异常
      */
     @ResponseBody
-    @ExceptionHandler(value = ApiException.class)
+    @ExceptionHandler(value = {ApiException.class, IllegalArgumentException.class})
     public ApiResult<Map<String, Object>> handle(ApiException e) {
         if (e.getErrorCode() != null) {
             return ApiResult.failed(e.getErrorCode());

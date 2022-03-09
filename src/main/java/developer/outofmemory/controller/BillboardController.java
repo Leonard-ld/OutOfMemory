@@ -20,7 +20,7 @@ public class BillboardController extends BaseController{
     @Autowired
     private BillboardServiceImpl billboardService;
 
-    @GetMapping("/show")
+    @GetMapping
     public ApiResult<Billboard> show(){
         LambdaQueryWrapper lqw = new LambdaQueryWrapper<Billboard>().eq(Billboard::isShow, true);
         List<Billboard> list = billboardService.list(lqw);

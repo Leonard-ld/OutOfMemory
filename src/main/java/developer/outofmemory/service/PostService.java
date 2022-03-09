@@ -10,6 +10,7 @@ import developer.outofmemory.model.vo.PostVO;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.BlockingDeque;
 
 public interface PostService extends IService<Post> {
 
@@ -27,4 +28,8 @@ public interface PostService extends IService<Post> {
     Map<String, Object> viewPost(String id);
 
     List<Post> getRecommend(String id);
+
+    Boolean deletePostById(String id);
+
+    Page<Post> selectPostsByTagId(Page<Post> postPage, String id);
 }

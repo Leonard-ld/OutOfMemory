@@ -6,6 +6,11 @@ import developer.outofmemory.model.entity.PostTag;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-@Repository
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Mapper
 public interface PostTagDao extends BaseMapper<PostTag> {
+    List<String> getTopicIdsByTagId(String id);
 }

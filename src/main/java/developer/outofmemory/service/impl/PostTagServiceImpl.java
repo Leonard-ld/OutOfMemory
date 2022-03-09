@@ -2,12 +2,14 @@ package developer.outofmemory.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import developer.outofmemory.dao.PostTagDao;
 import developer.outofmemory.dao.TagDao;
 import developer.outofmemory.model.entity.Post;
 import developer.outofmemory.model.entity.PostTag;
 import developer.outofmemory.model.entity.Tag;
+import developer.outofmemory.service.PostService;
 import developer.outofmemory.service.PostTagService;
 import developer.outofmemory.service.TagService;
 import lombok.AllArgsConstructor;
@@ -22,9 +24,16 @@ import java.util.List;
 public class PostTagServiceImpl extends ServiceImpl<PostTagDao, PostTag> implements PostTagService{
 
     public List<PostTag> selectByPostId(String postId){
-        QueryWrapper<PostTag> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(PostTag::getPostId, postId);
+        LambdaQueryWrapper<PostTag> wrapper = new LambdaQueryWrapper<PostTag>();
+        wrapper.eq(PostTag::getPostId, postId);
         return this.baseMapper.selectList(wrapper);
+    }
+
+    @Override
+    public Boolean deleteByPostId(String postId) {
+        LambdaQueryWrapper<PostTag> wrapper = new LambdaQueryWrapper<PostTag>();
+        wrapper.eq(PostTag::getPostId, postId);
+        return this.baseMapper.delete(wrapper) > 0;
     }
 
     @Override
@@ -39,4 +48,5 @@ public class PostTagServiceImpl extends ServiceImpl<PostTagDao, PostTag> impleme
             this.save(new PostTag(tag.getId(), postId));
         }
     }
+
 }

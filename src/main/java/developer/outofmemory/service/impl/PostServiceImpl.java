@@ -1,5 +1,6 @@
 package developer.outofmemory.service.impl;
 
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
@@ -8,8 +9,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.vdurmont.emoji.EmojiParser;
 import developer.outofmemory.dao.PostDao;
+import developer.outofmemory.dao.PostTagDao;
 import developer.outofmemory.dao.TagDao;
-import developer.outofmemory.dao.UserDao;
 import developer.outofmemory.model.dto.CreateDTO;
 import developer.outofmemory.model.entity.Post;
 import developer.outofmemory.model.entity.PostTag;
@@ -22,12 +23,10 @@ import developer.outofmemory.service.PostTagService;
 import developer.outofmemory.service.TagService;
 import developer.outofmemory.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,11 +36,21 @@ public class PostServiceImpl extends ServiceImpl<PostDao, Post> implements PostS
 
 
     private TagDao tagDao;
+    private PostTagDao postTagDao;
     @Lazy
     private TagService tagService;
     private PostTagService postTagService;
     private UserService userService;
 
+
+    @Override
+    public Page<Post> selectPostsByTagId(Page<Post> postPage, String id) {
+        //查询tagId对应的PostsId
+        List<String> postIds = postTagDao.getTopicIdsByTagId(id);
+        LambdaQueryWrapper<Post> lqw = new LambdaQueryWrapper();
+        lqw.in(Post::getId, postIds);
+        return this.page(postPage, lqw);
+    }
 
     @Override
     public Page<PostVO> getList(Page<PostVO> page, String tab) {
@@ -126,5 +135,15 @@ public class PostServiceImpl extends ServiceImpl<PostDao, Post> implements PostS
     public List<Post> getRecommend(String id) {
         return this.baseMapper.selectRecommend(id);
     }
+
+    @Override
+    public Boolean deletePostById(String id){
+        //删除post
+        this.baseMapper.deleteById(id);
+        //删除post-tag
+        return postTagService.deleteByPostId(id);
+    }
+
+
 
 }

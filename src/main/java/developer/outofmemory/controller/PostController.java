@@ -30,7 +30,7 @@ public class PostController extends BaseController {
     @Resource
     private UserService userService;
 
-    @GetMapping("{pageNo}/{size}/{tab}")
+    @GetMapping("/{pageNo}/{size}/{tab}")
     public ApiResult<Page<PostVO>> list(@RequestParam(value = "tab", defaultValue = "latest") String tab,
                                         @RequestParam(value = "pageNo", defaultValue = "1")  Integer pageNo,
                                         @RequestParam(value = "size", defaultValue = "10") Integer pageSize) {
@@ -38,6 +38,7 @@ public class PostController extends BaseController {
         return ApiResult.success(list);
     }
 
+    //发表帖子
     @PostMapping
     public ApiResult<Post> create(@RequestHeader(value = USER_NAME) String userName
             , @RequestBody CreateDTO createDTO) {
@@ -46,36 +47,43 @@ public class PostController extends BaseController {
         return ApiResult.success(post);
     }
 
-    @GetMapping("{id}")
+    /**
+     * 浏览帖子
+     * @param id 帖子ID
+     * @return
+     */
+    @GetMapping("/{id}")
     public ApiResult<Map<String, Object>> detail(@PathVariable String id) {
         Map<String, Object> map = postService.viewPost(id);
         return ApiResult.success(map);
     }
 
-    @GetMapping("/recommend")
-    public ApiResult<List<Post>> getRecommend(@RequestParam("postId") String id) {
+    @GetMapping("/recommend/{id}")
+    public ApiResult<List<Post>> getRecommend(@PathVariable String id) {
         List<Post> topics = postService.getRecommend(id);
         return ApiResult.success(topics);
     }
-/*
-    @PostMapping("/update")
-    public ApiResult<BmsPost> update(@RequestHeader(value = USER_NAME) String userName, @Valid @RequestBody BmsPost post) {
-        UmsUser umsUser = umsUserService.getUserByUsername(userName);
-        Assert.isTrue(umsUser.getId().equals(post.getUserId()), "非本人无权修改");
+
+    //更新帖子
+    @PutMapping
+    public ApiResult<Post> update(@RequestHeader(value = USER_NAME) String userName, @Valid @RequestBody Post post) {
+        User user = userService.getUserByUsername(userName);
+        Assert.isTrue(user.getId().equals(post.getUserId()), "出错啦，刷新一下吧");
         post.setModifyTime(new Date());
         post.setContent(EmojiParser.parseToAliases(post.getContent()));
-        iBmsPostService.updateById(post);
+        postService.updateById(post);
         return ApiResult.success(post);
     }
 
-    @DeleteMapping("/delete/{id}")
+    //删除帖子
+    @DeleteMapping("/{id}")
     public ApiResult<String> delete(@RequestHeader(value = USER_NAME) String userName, @PathVariable("id") String id) {
-        UmsUser umsUser = umsUserService.getUserByUsername(userName);
-        BmsPost byId = iBmsPostService.getById(id);
+        User umsUser = userService.getUserByUsername(userName);
+        Post byId = postService.getById(id);
         Assert.notNull(byId, "来晚一步，话题已不存在");
         Assert.isTrue(byId.getUserId().equals(umsUser.getId()), "你为什么可以删除别人的话题？？？");
-        iBmsPostService.removeById(id);
+        postService.deletePostById(id);
         return ApiResult.success(null,"删除成功");
-    }*/
+    }
 
 }

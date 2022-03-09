@@ -1,9 +1,11 @@
 package developer.outofmemory.controller;
 
 import developer.outofmemory.common.api.ApiResult;
+import developer.outofmemory.common.exception.ApiAsserts;
 import developer.outofmemory.model.dto.LoginDTO;
 import developer.outofmemory.model.dto.RegisterDTO;
 import developer.outofmemory.model.entity.User;
+import developer.outofmemory.model.vo.ProfileVO;
 import developer.outofmemory.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
@@ -21,6 +23,18 @@ public class UserController extends BaseController{
 
     @Autowired
     private UserService userService;
+
+    @GetMapping(value = "/info")
+    public ApiResult<User> getUser(@RequestHeader(value = USER_NAME) String userName) {
+        User user = userService.getUserByUsername(userName);
+        return ApiResult.success(user);
+    }
+
+    @GetMapping("/{id}")
+    public ApiResult<ProfileVO> userProfile(@PathVariable String id){
+        ProfileVO profileVO = userService.getUserProfile(id);
+        return ApiResult.success(profileVO);
+    }
 
     @PostMapping("/register")
     public ApiResult<User> register(@Valid @RequestBody RegisterDTO registerDTO){
@@ -44,10 +58,12 @@ public class UserController extends BaseController{
     }
 
 
-    @GetMapping(value = "/info")
-    public ApiResult<User> getUser(@RequestHeader(value = USER_NAME) String userName) {
-        User user = userService.getUserByUsername(userName);
-        return ApiResult.success(user);
+    @PutMapping
+    public ApiResult<User> modify(@RequestBody User user, @RequestHeader(name = USER_NAME) String userName){
+        if (!user.getUsername().equals(userName))
+            ApiAsserts.fail("请求错误");
+        userService.updateById(user);
+        return ApiResult.success(user, "修改成功");
     }
 
     @RequestMapping(value = "/logout")

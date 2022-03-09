@@ -43,9 +43,9 @@ public class User implements Serializable {
 
     @TableField("mobile")
     private String mobile;
-
+    @Builder.Default
     @TableField("bio")
-    private String bio;
+    private String bio = "这个人很懒，什么都没有写";
 
     @Builder.Default
     @TableField("score")

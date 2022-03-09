@@ -30,7 +30,7 @@ public class PostController extends BaseController {
     @Resource
     private UserService userService;
 
-    @GetMapping("/{pageNo}/{size}/{tab}")
+    @GetMapping("/list")
     public ApiResult<Page<PostVO>> list(@RequestParam(value = "tab", defaultValue = "latest") String tab,
                                         @RequestParam(value = "pageNo", defaultValue = "1")  Integer pageNo,
                                         @RequestParam(value = "size", defaultValue = "10") Integer pageSize) {

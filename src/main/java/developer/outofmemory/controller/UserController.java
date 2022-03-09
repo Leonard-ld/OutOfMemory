@@ -1,11 +1,16 @@
 package developer.outofmemory.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Assert;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import developer.outofmemory.common.api.ApiResult;
 import developer.outofmemory.common.exception.ApiAsserts;
 import developer.outofmemory.model.dto.LoginDTO;
 import developer.outofmemory.model.dto.RegisterDTO;
+import developer.outofmemory.model.entity.Post;
 import developer.outofmemory.model.entity.User;
 import developer.outofmemory.model.vo.ProfileVO;
+import developer.outofmemory.service.PostService;
 import developer.outofmemory.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
@@ -23,6 +28,8 @@ public class UserController extends BaseController{
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private PostService postService;
 
     @GetMapping(value = "/info")
     public ApiResult<User> getUser(@RequestHeader(value = USER_NAME) String userName) {
@@ -30,10 +37,18 @@ public class UserController extends BaseController{
         return ApiResult.success(user);
     }
 
-    @GetMapping("/{id}")
-    public ApiResult<ProfileVO> userProfile(@PathVariable String id){
-        ProfileVO profileVO = userService.getUserProfile(id);
-        return ApiResult.success(profileVO);
+    @GetMapping("/{username}/{pageNo}/{size}")
+    public ApiResult<Map<String, Object>> getUserByName(@PathVariable("username") String username,
+                                                        @RequestParam(value = "pageNo", defaultValue = "1") Integer pageNo,
+                                                        @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        Map<String, Object> map = new HashMap<>(16);
+        User user = userService.getUserByUsername(username);
+        Assert.notNull(user, "用户不存在");
+        Page<Post> page = postService.page(new Page<>(pageNo, size),
+                new LambdaQueryWrapper<Post>().eq(Post::getUserId, user.getId()));
+        map.put("user", user);
+        map.put("posts", page);
+        return ApiResult.success(map);
     }
 
     @PostMapping("/register")

@@ -7,7 +7,6 @@ import developer.outofmemory.common.api.ApiResult;
 import developer.outofmemory.model.entity.Post;
 import developer.outofmemory.model.entity.Tag;
 import developer.outofmemory.service.PostService;
-import developer.outofmemory.service.PostTagService;
 import developer.outofmemory.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

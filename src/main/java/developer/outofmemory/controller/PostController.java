@@ -30,6 +30,15 @@ public class PostController extends BaseController {
     @Resource
     private UserService userService;
 
+
+    @GetMapping("/search")
+    public ApiResult<Page<PostVO>> searchList(@RequestParam("keyword") String keyword,
+                                              @RequestParam("pageNum") Integer pageNum,
+                                              @RequestParam("pageSize") Integer pageSize) {
+        Page<PostVO> results = postService.searchByKey(keyword, new Page<>(pageNum, pageSize));
+        return ApiResult.success(results);
+    }
+
     @GetMapping("/list")
     public ApiResult<Page<PostVO>> list(@RequestParam(value = "tab", defaultValue = "latest") String tab,
                                         @RequestParam(value = "pageNo", defaultValue = "1")  Integer pageNo,
@@ -76,12 +85,12 @@ public class PostController extends BaseController {
     }
 
     //删除帖子
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ApiResult<String> delete(@RequestHeader(value = USER_NAME) String userName, @PathVariable("id") String id) {
-        User umsUser = userService.getUserByUsername(userName);
+        User user = userService.getUserByUsername(userName);
         Post byId = postService.getById(id);
         Assert.notNull(byId, "来晚一步，话题已不存在");
-        Assert.isTrue(byId.getUserId().equals(umsUser.getId()), "你为什么可以删除别人的话题？？？");
+        Assert.isTrue(byId.getUserId().equals(user.getId()), "你为什么可以删除别人的话题？？？");
         postService.deletePostById(id);
         return ApiResult.success(null,"删除成功");
     }

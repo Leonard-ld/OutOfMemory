@@ -140,10 +140,18 @@ public class PostServiceImpl extends ServiceImpl<PostDao, Post> implements PostS
     public Boolean deletePostById(String id){
         //删除post
         this.baseMapper.deleteById(id);
+        //删除post对应评论
         //删除post-tag
         return postTagService.deleteByPostId(id);
     }
 
-
+    @Override
+    public Page<PostVO> searchByKey(String keyword, Page<PostVO> page){
+        // 查询话题
+        Page<PostVO> iPage = this.baseMapper.searchByKey(page, keyword);
+        // 查询话题的标签
+        setPostTags(iPage);
+        return iPage;
+    }
 
 }

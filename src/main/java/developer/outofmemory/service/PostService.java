@@ -32,4 +32,6 @@ public interface PostService extends IService<Post> {
     Boolean deletePostById(String id);
 
     Page<Post> selectPostsByTagId(Page<Post> postPage, String id);
+
+    Page<PostVO> searchByKey(String keyword, Page<PostVO> objectPage);
 }

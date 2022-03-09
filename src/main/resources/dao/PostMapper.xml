@@ -48,7 +48,7 @@
             limit 10
     </select>
 
-<!--    <select id="searchByKey" resultMap="topicVO">
+    <select id="searchByKey" resultMap="PostVO">
         SELECT t.id,
         t.title,
         t.user_id,
@@ -62,8 +62,8 @@
         u.username,
         u.alias,
         u.avatar
-        FROM bms_post t
-        LEFT JOIN ums_user u
+        FROM post t
+        LEFT JOIN user u
         ON t.user_id = u.id
         <where>
             <if test="keyword!=null">
@@ -74,7 +74,7 @@
             </if>
         </where>
         order by t.view desc, t.create_time desc
-    </select>-->
+    </select>
 </mapper>
 
 

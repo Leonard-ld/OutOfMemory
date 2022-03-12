@@ -17,7 +17,7 @@ public class TipController extends BaseController{
     @Autowired
     private TipService tipService;
 
-    @GetMapping("/show")
+    @GetMapping
     public ApiResult<Tip> show(){
         return ApiResult.success(tipService.getTip());
 

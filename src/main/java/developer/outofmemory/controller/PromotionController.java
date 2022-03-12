@@ -19,7 +19,7 @@ public class PromotionController extends BaseController{
     @Autowired
     private PromotionService promotionService;
 
-    @GetMapping("/show")
+    @GetMapping
     public ApiResult<List<Promotion>> show(){
         List<Promotion> list = promotionService.list();
         return ApiResult.success(list);

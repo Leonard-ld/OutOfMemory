@@ -13,6 +13,8 @@ server:
 logging:
   level:
     root: warn
+  file:
+    name: outofmemory.log
 //    developer.outofmemory.dao: debug
 
 mybatis-plus:

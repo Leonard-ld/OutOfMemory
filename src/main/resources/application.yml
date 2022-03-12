@@ -4,15 +4,17 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/outofmemory?serverTimezone=UTC&characterEncoding=UTF-8
+      url: jdbc:mysql://localhost:3306/outofmemory_test?serverTimezone=UTC&characterEncoding=UTF-8
       username: root
-      password: 123456
+      password: li1259535860
 server:
   port: 8000
 
 logging:
   level:
     root: warn
+  file:
+    name: outofmemory.log
 //    developer.outofmemory.dao: debug
 
 mybatis-plus:

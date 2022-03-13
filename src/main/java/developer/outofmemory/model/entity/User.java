@@ -36,7 +36,7 @@ public class User implements Serializable {
 
     @Builder.Default
     @TableField("avatar")
-    private String avatar;
+    private String avatar = "https://s3.ax1x.com/2020/12/01/DfHNo4.jpg";
 
     @TableField("email")
     private String email;

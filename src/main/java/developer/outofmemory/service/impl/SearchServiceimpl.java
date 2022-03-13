@@ -17,6 +17,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,12 +48,13 @@ public class SearchServiceimpl implements SearchService{
 
     @Override
     public Boolean addDocument(Post post) throws Exception{
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         IndexRequest indexRequest = new IndexRequest("post");
         indexRequest.id(post.getId());
         Map<String, Object> json = new HashMap<>();
         json.put("title", post.getTitle());
         json.put("content", post.getContent());
-        json.put("create_time", post.getCreateTime());
+        json.put("create_time", dateformat.format(post.getCreateTime()));
         indexRequest.source(json);
         client.index(indexRequest, RequestOptions.DEFAULT);
         return true;

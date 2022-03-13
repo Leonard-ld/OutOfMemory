@@ -115,6 +115,10 @@ public class PostController extends BaseController {
     }
     @PutMapping("/updateplus")
     public ApiResult<Object> updateDocument(@RequestHeader(value = USER_NAME) String userName, @Valid @RequestBody Post post) throws Exception {
+        User user = userService.getUserByUsername(userName);
+        Assert.isTrue(user.getId().equals(post.getUserId()), "出错啦，刷新一下吧");
+        post.setModifyTime(new Date());
+        post.setContent(EmojiParser.parseToAliases(post.getContent()));
         searchService.updateDocument(post);
         return ApiResult.success();
     }

@@ -36,6 +36,13 @@ public class PostController extends BaseController {
 
 
     @GetMapping("/search")
+    public ApiResult<Object> searchPlus(@RequestParam("keyword") String keyword,
+                                        @RequestParam("pageNum") Integer pageNum,
+                                        @RequestParam("pageSize") Integer pageSize) throws Exception {
+        return searchService.searchByKeyWord(keyword, pageNum, pageSize);
+    }
+
+    @GetMapping("/searchDeprecated")
     public ApiResult<Page<PostVO>> searchList(@RequestParam("keyword") String keyword,
                                               @RequestParam("pageNum") Integer pageNum,
                                               @RequestParam("pageSize") Integer pageSize) {
@@ -81,38 +88,35 @@ public class PostController extends BaseController {
 
     //更新帖子
     @PutMapping
-    public ApiResult<Post> update(@RequestHeader(value = USER_NAME) String userName, @Valid @RequestBody Post post) {
+    public ApiResult<Post> update(@RequestHeader(value = USER_NAME) String userName, @Valid @RequestBody Post post) throws Exception {
         User user = userService.getUserByUsername(userName);
         Assert.isTrue(user.getId().equals(post.getUserId()), "出错啦，刷新一下吧");
         post.setModifyTime(new Date());
         post.setContent(EmojiParser.parseToAliases(post.getContent()));
         postService.updateById(post);
+        searchService.updateDocument(post);
         return ApiResult.success(post);
     }
 
     //删除帖子
     @DeleteMapping("/delete/{id}")
-    public ApiResult<String> delete(@RequestHeader(value = USER_NAME) String userName, @PathVariable("id") String id) {
+    public ApiResult<String> delete(@RequestHeader(value = USER_NAME) String userName, @PathVariable("id") String id) throws Exception {
         User user = userService.getUserByUsername(userName);
         Post byId = postService.getById(id);
         Assert.notNull(byId, "来晚一步，话题已不存在");
         Assert.isTrue(byId.getUserId().equals(user.getId()), "你为什么可以删除别人的话题？？？");
         postService.deletePostById(id);
+        searchService.deleteDocument(id);
         return ApiResult.success(null,"删除成功");
     }
 
 
-    @GetMapping("/searchplus")
-    public ApiResult<Object> searchPlus(@RequestParam("keyword") String keyword,
-                                        @RequestParam("pageNum") Integer pageNum,
-                                        @RequestParam("pageSize") Integer pageSize) throws Exception {
-        return searchService.searchByKeyWord(keyword, pageNum, pageSize);
-    }
     @DeleteMapping("/deleteplus/{id}")
     public ApiResult<Object> deleteDocument(@RequestHeader(value = USER_NAME) String userName, @PathVariable("id") String id) throws Exception{
         searchService.deleteDocument(id);
         return ApiResult.success();
     }
+
     @PutMapping("/updateplus")
     public ApiResult<Object> updateDocument(@RequestHeader(value = USER_NAME) String userName, @Valid @RequestBody Post post) throws Exception {
         User user = userService.getUserByUsername(userName);

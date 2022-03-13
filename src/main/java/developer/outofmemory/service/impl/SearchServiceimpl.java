@@ -37,14 +37,20 @@ public class SearchServiceimpl implements SearchService{
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.from(from).size(pageSize);
         searchSourceBuilder.query(QueryBuilders.multiMatchQuery(keyWord,"title","content"));
+        searchRequest.source(searchSourceBuilder);
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
         SearchHit[] searchHits = searchResponse.getHits().getHits();
-        List<Map<String, Object>> list = new ArrayList<>();
+        List<Map<String, Object>> records = new ArrayList<>();
         for (SearchHit s:
              searchHits) {
-            list.add(s.getSourceAsMap());
+            records.add(s.getSourceAsMap());
         }
-        return ApiResult.success(list);
+        Map<String, Object> data = new HashMap<>();
+        data.put("records", records);
+        data.put("total", searchResponse.getHits().getTotalHits().value);
+        data.put("size", pageSize);
+        data.put("current", pageNum);
+        return ApiResult.success(data);
     }
 
     @Override

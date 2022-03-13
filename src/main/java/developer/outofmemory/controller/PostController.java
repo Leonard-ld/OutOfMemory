@@ -8,7 +8,9 @@ import developer.outofmemory.model.entity.Post;
 import developer.outofmemory.model.entity.User;
 import developer.outofmemory.model.vo.PostVO;
 import developer.outofmemory.service.PostService;
+import developer.outofmemory.service.SearchService;
 import developer.outofmemory.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
@@ -29,6 +31,8 @@ public class PostController extends BaseController {
     private PostService postService;
     @Resource
     private UserService userService;
+    @Autowired
+    private SearchService searchService;
 
 
     @GetMapping("/search")
@@ -38,6 +42,7 @@ public class PostController extends BaseController {
         Page<PostVO> results = postService.searchByKey(keyword, new Page<>(pageNum, pageSize));
         return ApiResult.success(results);
     }
+
 
     @GetMapping("/list")
     public ApiResult<Page<PostVO>> list(@RequestParam(value = "tab", defaultValue = "latest") String tab,
@@ -50,9 +55,10 @@ public class PostController extends BaseController {
     //发表帖子
     @PostMapping
     public ApiResult<Post> create(@RequestHeader(value = USER_NAME) String userName
-            , @RequestBody CreateDTO createDTO) {
+            , @RequestBody CreateDTO createDTO) throws Exception {
         User user = userService.getUserByUsername(userName);
         Post post = postService.create(createDTO, user);
+        searchService.addDocument(post);
         return ApiResult.success(post);
     }
 
@@ -93,6 +99,24 @@ public class PostController extends BaseController {
         Assert.isTrue(byId.getUserId().equals(user.getId()), "你为什么可以删除别人的话题？？？");
         postService.deletePostById(id);
         return ApiResult.success(null,"删除成功");
+    }
+
+
+    @GetMapping("/searchplus")
+    public ApiResult<Object> searchPlus(@RequestParam("keyword") String keyword,
+                                        @RequestParam("pageNum") Integer pageNum,
+                                        @RequestParam("pageSize") Integer pageSize) throws Exception {
+        return searchService.searchByKeyWord(keyword, pageNum, pageSize);
+    }
+    @DeleteMapping("/deleteplus/{id}")
+    public ApiResult<Object> deleteDocument(@RequestHeader(value = USER_NAME) String userName, @PathVariable("id") String id) throws Exception{
+        searchService.deleteDocument(id);
+        return ApiResult.success();
+    }
+    @PutMapping("/updateplus")
+    public ApiResult<Object> updateDocument(@RequestHeader(value = USER_NAME) String userName, @Valid @RequestBody Post post) throws Exception {
+        searchService.updateDocument(post);
+        return ApiResult.success();
     }
 
 }

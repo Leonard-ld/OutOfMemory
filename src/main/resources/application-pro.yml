@@ -7,16 +7,18 @@ spring:
       url: jdbc:mysql://101.42.251.254:3306/outofmemory?serverTimezone=UTC&characterEncoding=UTF-8
       username: root
       password: 123456
+  elasticsearch:
+    rest:
+      uris: http://101.42.251.254:9200
 server:
   port: 8000
 
 logging:
   level:
-    root: warn
+    root: info
+    //developer.outofmemory.dao: debug
   file:
     name: outofmemory.log
-//    developer.outofmemory.dao: debug
 
 mybatis-plus:
   mapper-locations: classpath:**/*.xml
-

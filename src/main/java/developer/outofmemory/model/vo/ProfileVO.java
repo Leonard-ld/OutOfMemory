@@ -15,6 +15,8 @@ public class ProfileVO {
      */
     private String username;
 
+    private String email;
+
     /**
      * 别称
      */

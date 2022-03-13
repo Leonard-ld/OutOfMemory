@@ -28,6 +28,7 @@ public class SearchServiceimpl implements SearchService{
 
     @Autowired
     RestHighLevelClient client;
+    SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     public ApiResult<Object> searchByKeyWord(String keyWord, Integer pageNum, Integer pageSize)  throws Exception{
@@ -48,7 +49,7 @@ public class SearchServiceimpl implements SearchService{
 
     @Override
     public Boolean addDocument(Post post) throws Exception{
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         IndexRequest indexRequest = new IndexRequest("post");
         indexRequest.id(post.getId());
         Map<String, Object> json = new HashMap<>();
@@ -74,7 +75,7 @@ public class SearchServiceimpl implements SearchService{
         Map<String, Object> json = new HashMap<>();
         json.put("title", post.getTitle());
         json.put("content", post.getContent());
-        json.put("create_time", post.getCreateTime());
+        json.put("create_time", dateformat.format(post.getCreateTime()));
         updateRequest.doc(json);
         return true;
     }

@@ -62,7 +62,7 @@ public class SearchServiceimpl implements SearchService{
         json.put("id", post.getId());
         json.put("title", post.getTitle());
         json.put("content", post.getContent());
-        json.put("create_time", dateformat.format(post.getCreateTime()));
+        json.put("createTime", dateformat.format(post.getCreateTime()));
         indexRequest.source(json);
         client.index(indexRequest, RequestOptions.DEFAULT);
         return true;

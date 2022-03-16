@@ -65,7 +65,7 @@ public class PostController extends BaseController {
             , @RequestBody CreateDTO createDTO) throws Exception {
         User user = userService.getUserByUsername(userName);
         Post post = postService.create(createDTO, user);
-        searchService.addDocument(post);
+        //searchService.addDocument(post);
         return ApiResult.success(post);
     }
 
@@ -94,7 +94,7 @@ public class PostController extends BaseController {
         post.setModifyTime(new Date());
         post.setContent(EmojiParser.parseToAliases(post.getContent()));
         postService.updateById(post);
-        searchService.updateDocument(post);
+        //searchService.updateDocument(post);
         return ApiResult.success(post);
     }
 
@@ -106,25 +106,8 @@ public class PostController extends BaseController {
         Assert.notNull(byId, "来晚一步，话题已不存在");
         Assert.isTrue(byId.getUserId().equals(user.getId()), "你为什么可以删除别人的话题？？？");
         postService.deletePostById(id);
-        searchService.deleteDocument(id);
+        //searchService.deleteDocument(id);
         return ApiResult.success(null,"删除成功");
-    }
-
-
-    @DeleteMapping("/deleteplus/{id}")
-    public ApiResult<Object> deleteDocument(@RequestHeader(value = USER_NAME) String userName, @PathVariable("id") String id) throws Exception{
-        searchService.deleteDocument(id);
-        return ApiResult.success();
-    }
-
-    @PutMapping("/updateplus")
-    public ApiResult<Object> updateDocument(@RequestHeader(value = USER_NAME) String userName, @Valid @RequestBody Post post) throws Exception {
-        User user = userService.getUserByUsername(userName);
-        Assert.isTrue(user.getId().equals(post.getUserId()), "出错啦，刷新一下吧");
-        post.setModifyTime(new Date());
-        post.setContent(EmojiParser.parseToAliases(post.getContent()));
-        searchService.updateDocument(post);
-        return ApiResult.success();
     }
 
 }

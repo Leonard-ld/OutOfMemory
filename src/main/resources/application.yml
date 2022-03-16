@@ -6,7 +6,7 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/outofmemory_test?serverTimezone=UTC&characterEncoding=UTF-8
       username: root
-      password: li1259535860
+      password: 123456
   elasticsearch:
     rest:
       uris: http://101.42.251.254:9200
@@ -22,4 +22,5 @@ logging:
 
 mybatis-plus:
   mapper-locations: classpath:**/*.xml
+
 

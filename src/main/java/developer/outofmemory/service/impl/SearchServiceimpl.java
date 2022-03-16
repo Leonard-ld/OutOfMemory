@@ -67,7 +67,6 @@ public class SearchServiceimpl implements SearchService{
         json.put("title", post.getTitle());
         json.put("content", post.getContent());
         json.put("createTime", dateformat.format(post.getCreateTime()));
-        json.put("view", post.getView());
         indexRequest.source(json);
         client.index(indexRequest, RequestOptions.DEFAULT);
         return true;
@@ -89,7 +88,6 @@ public class SearchServiceimpl implements SearchService{
         json.put("title", post.getTitle());
         json.put("content", post.getContent());
         json.put("createTime", dateformat.format(post.getCreateTime()));
-        json.put("view", post.getView());
         updateRequest.doc(json);
         client.update(updateRequest, RequestOptions.DEFAULT);
         return true;

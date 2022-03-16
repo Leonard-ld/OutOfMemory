@@ -4,6 +4,7 @@ import developer.outofmemory.common.api.ApiResult;
 import developer.outofmemory.model.dto.CreateDTO;
 import developer.outofmemory.model.entity.Post;
 import developer.outofmemory.service.SearchService;
+import developer.outofmemory.service.TagService;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
@@ -28,6 +29,9 @@ public class SearchServiceimpl implements SearchService{
 
     @Autowired
     RestHighLevelClient client;
+
+    @Autowired
+    TagService tagService;
     SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
@@ -63,6 +67,7 @@ public class SearchServiceimpl implements SearchService{
         json.put("title", post.getTitle());
         json.put("content", post.getContent());
         json.put("createTime", dateformat.format(post.getCreateTime()));
+        json.put("view", post.getView());
         indexRequest.source(json);
         client.index(indexRequest, RequestOptions.DEFAULT);
         return true;
@@ -84,6 +89,7 @@ public class SearchServiceimpl implements SearchService{
         json.put("title", post.getTitle());
         json.put("content", post.getContent());
         json.put("createTime", dateformat.format(post.getCreateTime()));
+        json.put("view", post.getView());
         updateRequest.doc(json);
         client.update(updateRequest, RequestOptions.DEFAULT);
         return true;

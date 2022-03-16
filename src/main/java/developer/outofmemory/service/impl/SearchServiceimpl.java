@@ -59,6 +59,7 @@ public class SearchServiceimpl implements SearchService{
         IndexRequest indexRequest = new IndexRequest("post");
         indexRequest.id(post.getId());
         Map<String, Object> json = new HashMap<>();
+        json.put("id", post.getId());
         json.put("title", post.getTitle());
         json.put("content", post.getContent());
         json.put("create_time", dateformat.format(post.getCreateTime()));

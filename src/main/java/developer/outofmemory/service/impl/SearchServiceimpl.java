@@ -80,9 +80,10 @@ public class SearchServiceimpl implements SearchService{
     public Boolean updateDocument(Post post) throws Exception{
         UpdateRequest updateRequest = new UpdateRequest("post", post.getId());
         Map<String, Object> json = new HashMap<>();
+        json.put("id", post.getId());
         json.put("title", post.getTitle());
         json.put("content", post.getContent());
-        json.put("create_time", dateformat.format(post.getCreateTime()));
+        json.put("createTime", dateformat.format(post.getCreateTime()));
         updateRequest.doc(json);
         client.update(updateRequest, RequestOptions.DEFAULT);
         return true;

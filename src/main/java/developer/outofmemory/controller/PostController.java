@@ -35,14 +35,14 @@ public class PostController extends BaseController {
     private SearchService searchService;
 
 
-    @GetMapping("/search")
+    @GetMapping("/searchDeprecated")
     public ApiResult<Object> searchPlus(@RequestParam("keyword") String keyword,
                                         @RequestParam("pageNum") Integer pageNum,
                                         @RequestParam("pageSize") Integer pageSize) throws Exception {
         return searchService.searchByKeyWord(keyword, pageNum, pageSize);
     }
 
-    @GetMapping("/searchDeprecated")
+    @GetMapping("/search")
     public ApiResult<Page<PostVO>> searchList(@RequestParam("keyword") String keyword,
                                               @RequestParam("pageNum") Integer pageNum,
                                               @RequestParam("pageSize") Integer pageSize) {
